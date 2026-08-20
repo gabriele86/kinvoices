@@ -149,13 +149,3 @@ vendor/bin/phpunit
 
 Both were produced with `mysqldump` from the database created by the migration in
 `migrations/`.
-
-## Notes
-
-* Symfony 5.4 predates PHP 8.4/8.5, and its internals still call
-  `ReflectionProperty::setAccessible()`. `public/index.php` and `bin/console`
-  silence that engine notice while the framework boots (only on PHP ≥ 8.4);
-  Symfony restores full error reporting right after.
-* `.gitignore` keeps the block given in the specification (which targets the old
-  Symfony 2/3 `app/` + `web/` layout) and adds the equivalent rules for this
-  layout. `/bin/` is re-opened for `bin/console`, which Symfony 5 needs.
