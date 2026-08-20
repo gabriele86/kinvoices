@@ -35,8 +35,6 @@
 /phpunit.xml
 /.phpunit.cache/
 ###< phpunit/phpunit ###
-/compose.override.yaml
-/compose.yaml
 /composer.lock
 /symfony.iml
 /symfony.lock

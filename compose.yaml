@@ -1,0 +1,17 @@
+# Local development database. Only needed if you do not already have a MySQL
+# server on 127.0.0.1:3306; the credentials match the DATABASE_URL in .env.
+services:
+###> doctrine/doctrine-bundle ###
+  database:
+    image: mysql:8.0
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-invoicing}
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+    volumes:
+      - database_data:/var/lib/mysql:rw
+###< doctrine/doctrine-bundle ###
+
+volumes:
+###> doctrine/doctrine-bundle ###
+  database_data:
+###< doctrine/doctrine-bundle ###
