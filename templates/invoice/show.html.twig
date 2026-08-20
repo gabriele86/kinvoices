@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Invoice #{{ invoice.invoiceNumber }}{% endblock %}
+
+{% block body %}
+    <h1>Invoice #{{ invoice.invoiceNumber }}</h1>
+
+    <dl class="summary">
+        <div><dt>Id</dt><dd>{{ invoice.id }}</dd></div>
+        <div><dt>Invoice date</dt><dd>{{ invoice.invoiceDate|date('Y-m-d') }}</dd></div>
+        <div><dt>Invoice number</dt><dd>{{ invoice.invoiceNumber }}</dd></div>
+        <div><dt>Customer id</dt><dd>{{ invoice.customerId }}</dd></div>
+    </dl>
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Description</th>
+            <th class="numeric">Quantity</th>
+            <th class="numeric">Amount</th>
+            <th class="numeric">VAT amount</th>
+            <th class="numeric">Total with VAT</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for line in invoice.lines %}
+            <tr>
+                <td>{{ line.id }}</td>
+                <td>{{ line.description|nl2br }}</td>
+                <td class="numeric">{{ line.quantity }}</td>
+                <td class="numeric">{{ line.amount }}</td>
+                <td class="numeric">{{ line.vatAmount }}</td>
+                <td class="numeric strong">{{ line.totalWithVat }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+        <tfoot>
+        <tr>
+            <th colspan="3" class="right">Totals</th>
+            <td class="numeric">{{ invoice.totalAmount }}</td>
+            <td class="numeric">{{ invoice.totalVatAmount }}</td>
+            <td class="numeric strong">{{ invoice.totalWithVat }}</td>
+        </tr>
+        </tfoot>
+    </table>
+
+    <div class="row-between">
+        <a href="{{ path('invoice_index') }}">Back to the list</a>
+        <a class="button button-primary" href="{{ path('invoice_edit', {id: invoice.id}) }}">Edit</a>
+    </div>
+{% endblock %}

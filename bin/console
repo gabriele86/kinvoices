@@ -1,0 +1,30 @@
+#!/usr/bin/env php
+<?php
+
+use App\Kernel;
+use Symfony\Bundle\FrameworkBundle\Console\Application;
+
+// Symfony 5.4 (LTS) predates PHP 8.4/8.5 and its own bootstrap still calls
+// ReflectionProperty::setAccessible(), which the engine now deprecates. Swallow
+// deprecations raised while the framework boots so they do not end up in the
+// response; Symfony installs its own error handler moments later and takes over,
+// so application deprecations are still logged as usual.
+if (\PHP_VERSION_ID >= 80400) {
+    set_error_handler(static fn (int $type): bool => \E_DEPRECATED === $type);
+}
+
+if (!is_dir(dirname(__DIR__).'/vendor')) {
+    throw new LogicException('Dependencies are missing. Try running "composer install".');
+}
+
+if (!is_file(dirname(__DIR__).'/vendor/autoload_runtime.php')) {
+    throw new LogicException('Symfony Runtime is missing. Try running "composer require symfony/runtime".');
+}
+
+require_once dirname(__DIR__).'/vendor/autoload_runtime.php';
+
+return function (array $context) {
+    $kernel = new Kernel($context['APP_ENV'], (bool) $context['APP_DEBUG']);
+
+    return new Application($kernel);
+};

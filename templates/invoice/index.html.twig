@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Invoices{% endblock %}
+
+{% block body %}
+    <h1>Invoices</h1>
+
+    {% if invoices is empty %}
+        <p class="empty">No invoice has been created yet. <a href="{{ path('invoice_new') }}">Create the first one</a>.</p>
+    {% else %}
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Id</th>
+                <th>Invoice number</th>
+                <th>Invoice date</th>
+                <th>Customer id</th>
+                <th class="numeric">Lines</th>
+                <th class="numeric">Amount</th>
+                <th class="numeric">VAT amount</th>
+                <th class="numeric">Total with VAT</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for invoice in invoices %}
+                <tr>
+                    <td>{{ invoice.id }}</td>
+                    <td><a href="{{ path('invoice_show', {id: invoice.id}) }}">#{{ invoice.invoiceNumber }}</a></td>
+                    <td>{{ invoice.invoiceDate|date('Y-m-d') }}</td>
+                    <td>{{ invoice.customerId }}</td>
+                    <td class="numeric">{{ invoice.lines|length }}</td>
+                    <td class="numeric">{{ invoice.totalAmount }}</td>
+                    <td class="numeric">{{ invoice.totalVatAmount }}</td>
+                    <td class="numeric strong">{{ invoice.totalWithVat }}</td>
+                    <td class="actions">
+                        <a href="{{ path('invoice_edit', {id: invoice.id}) }}">Edit</a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+{% endblock %}

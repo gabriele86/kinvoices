@@ -1,0 +1,64 @@
+{{ form_start(form, {attr: {novalidate: 'novalidate', 'data-invoice-form': ''}}) }}
+
+    {% if not form.vars.valid %}
+        <div class="flash flash-error">
+            Please fix the errors below.
+            {{ form_errors(form) }}
+        </div>
+    {% endif %}
+
+    <fieldset class="card">
+        <legend>Invoice</legend>
+
+        <div class="grid grid-3">
+            <div class="field">{{ form_label(form.invoiceDate) }}{{ form_widget(form.invoiceDate) }}{{ form_errors(form.invoiceDate) }}</div>
+            <div class="field">{{ form_label(form.invoiceNumber) }}{{ form_widget(form.invoiceNumber) }}{{ form_errors(form.invoiceNumber) }}</div>
+            <div class="field">{{ form_label(form.customerId) }}{{ form_widget(form.customerId) }}{{ form_errors(form.customerId) }}</div>
+        </div>
+    </fieldset>
+
+    <fieldset class="card">
+        <legend>Invoice lines</legend>
+
+        {{ form_errors(form.lines) }}
+
+        <table class="table table-lines">
+            <thead>
+            <tr>
+                <th class="col-description">Description</th>
+                <th class="col-qty">Quantity</th>
+                <th class="col-money">Amount</th>
+                <th class="col-money">VAT amount</th>
+                <th class="col-money">Total with VAT</th>
+                <th class="col-actions"></th>
+            </tr>
+            </thead>
+
+            <tbody id="invoice-lines"
+                   data-prototype="{{ include('invoice/_line.html.twig', {line: form.lines.vars.prototype})|e('html_attr') }}"
+                   data-index="{{ form.lines|length }}">
+            {% for line in form.lines %}
+                {{ include('invoice/_line.html.twig', {line: line}) }}
+            {% endfor %}
+            </tbody>
+
+            <tfoot>
+            <tr>
+                <th colspan="2" class="right">Invoice totals</th>
+                <td class="numeric" data-invoice-total="amount">0.00</td>
+                <td class="numeric" data-invoice-total="vat">0.00</td>
+                <td class="numeric strong" data-invoice-total="total">0.00</td>
+                <td></td>
+            </tr>
+            </tfoot>
+        </table>
+
+        <button type="button" class="button" id="add-invoice-line">+ Add line</button>
+    </fieldset>
+
+    <div class="form-actions">
+        <button class="button button-primary">{{ button_label|default('Save') }}</button>
+    </div>
+
+{{ form_end(form) }}
+

@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit invoice #{{ invoice.invoiceNumber }}{% endblock %}
+
+{% block body %}
+    <h1>Edit invoice #{{ invoice.invoiceNumber }}</h1>
+
+    {{ include('invoice/_form.html.twig', {button_label: 'Save changes'}) }}
+
+    <div class="row-between">
+        <a href="{{ path('invoice_index') }}">Back to the list</a>
+
+        <form method="post"
+              action="{{ path('invoice_delete', {id: invoice.id}) }}"
+              onsubmit="return confirm('Delete this invoice and all of its lines?');">
+            <input type="hidden" name="_token" value="{{ csrf_token('delete_invoice_' ~ invoice.id) }}">
+            <button class="button button-danger">Delete invoice</button>
+        </form>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset('js/invoice-lines.js') }}" defer></script>
+{% endblock %}

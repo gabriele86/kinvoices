@@ -1,0 +1,11 @@
+{# One row of the invoice lines collection. Also used as the JS prototype. #}
+<tr class="invoice-line">
+    <td class="col-description">{{ form_widget(line.description) }}{{ form_errors(line.description) }}</td>
+    <td class="col-qty">{{ form_widget(line.quantity) }}{{ form_errors(line.quantity) }}</td>
+    <td class="col-money">{{ form_widget(line.amount) }}{{ form_errors(line.amount) }}</td>
+    <td class="col-money">{{ form_widget(line.vatAmount) }}{{ form_errors(line.vatAmount) }}</td>
+    <td class="col-money">{{ form_widget(line.totalWithVat) }}</td>
+    <td class="col-actions">
+        <button type="button" class="button button-danger button-small" data-remove-line>Remove</button>
+    </td>
+</tr>
