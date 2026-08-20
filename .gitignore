@@ -1,0 +1,37 @@
+/web/bundles/
+/app/bootstrap.php.cache
+/app/cache/*
+/app/config/parameters.yml
+/app/logs/*
+!.app/cache/.gitkeep
+!.app/logs/.gitkeep
+/app/phpunit.xml
+/build/
+/vendor/
+/bin/
+/composer.phar
+
+# --- Additions for the Symfony 4/5 directory layout -------------------------
+# The block above comes from the specification and targets the old Symfony 2/3
+# layout (app/, web/). These lines cover the equivalent paths in this project.
+# `/bin/` above also hides bin/console, which the Symfony 5 layout needs. Git
+# cannot re-include a file under an ignored directory, so the rule is re-opened
+# here and narrowed to the directory contents instead.
+!/bin/
+/bin/*
+!/bin/console
+
+/var/
+/public/bundles/
+/.env.local
+/.env.local.php
+/.env.*.local
+/phpunit.xml
+/.phpunit.result.cache
+.DS_Store
+.idea/
+
+###> phpunit/phpunit ###
+/phpunit.xml
+/.phpunit.cache/
+###< phpunit/phpunit ###
